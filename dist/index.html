@@ -22,8 +22,18 @@
             e.preventDefault();
             let amount = document.getElementById('amount').value
 
-            fetch('https://open.er-api.com/v6/latest/USD').then(response)
+            fetch('https://open.er-api.com/v6/latest/USD').then((response) => response.json()).then((data)=>{
+                document.getElementById('dollar').innerText = amount;
+                document.getElementById('naira').innerText = data.rate.NGN*amount
+            })
         })
+
+        fetch('https://open.er-api.com/v6/latest/USD').then((response) => response.json()).then((data)=>{
+                let option = document.createElement('option');
+                option.value = currency;
+                option.innerText = currency;
+                document.querySelector('#currency').appendchild(option);
+            })
     </script>
 </body>
 </html>
