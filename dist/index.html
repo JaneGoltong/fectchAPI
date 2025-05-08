@@ -6,6 +6,24 @@
     <title>fetchAPI</title>
 </head>
 <body>
-    
+    <h1>Jane's Currency Change</h1>
+
+    <form>
+        <input type="number" id="amount">
+        <input type="button" value="Check Rate" id="check">
+    </form>
+    <div id="result">
+        <div id="dollar"></div>
+        <div id="naira"></div>
+    </div>
+    <script>
+        let btn = document.querySelector('#check');
+        btn.addEventListener('click',(e) =>{
+            e.preventDefault();
+            let amount = document.getElementById('amount').value
+
+            fetch('https://open.er-api.com/v6/latest/USD').then(response)
+        })
+    </script>
 </body>
 </html>
