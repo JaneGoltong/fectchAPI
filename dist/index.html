@@ -4,18 +4,37 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>fetchAPI</title>
+    <link rel="stylesheet" href="./style.css">
 </head>
-<body>
-    <h1>Jane's Currency Change</h1>
+<body class="bg-green-400">
+    <div class="container bg-white flex flex-col items-center gap-2 p-5 sm:p-2 sm:w/5 md:w-2/3 lg:w-2/6 rounded-lg md:m-auto ">
+        <h1 class="font-bold text-3xl text-green-400">Jane's Currency Change</h1>
+        <select name="" id="currency" class="text-green-400 px-5 py-2 mr-40">
+            <option value="" >select currency</option>
+        </select>
 
-    <form>
-        <input type="number" id="amount">
-        <input type="button" value="Check Rate" id="check">
-    </form>
-    <div id="result">
-        <div id="dollar"></div>
-        <div id="naira"></div>
+        <form class="bg-white flex flex-col gap-5">
+
+            <div>
+                <input type="number" id="amount" class="border-2 border-green-400 text-green-400">
+            <input type="button" value="Check Rate" id="check" class="border-2 text-green-400 border-green-400">
+            </div>
+            
+            <!-- naira to dollar -->
+
+            <div>
+                <input type="number" id="amount1" class="border-2 border-green-400 text-green-400">
+                <input type="button" value="Check Rate" id="check1" class="border-2 text-green-400 border-green-400">
+            </div>
+            
+
+        </form>
+        <div id="result" class=" bg-white flex flex-col gap-2 mr-28 mt-2">
+            <div id="dollar" class="border-2 text-green-400 border-green-400 "></div>
+            <div id="naira" class="border-2 text-green-400 border-green-400 "></div>
+        </div>
     </div>
+    
     <script>
         let btn = document.querySelector('#check');
         btn.addEventListener('click',(e) =>{
@@ -23,17 +42,36 @@
             let amount = document.getElementById('amount').value
 
             fetch('https://open.er-api.com/v6/latest/USD').then((response) => response.json()).then((data)=>{
-                document.getElementById('dollar').innerText = amount;
-                document.getElementById('naira').innerText = data.rate.NGN*amount
+                document.getElementById('dollar').innerText = `Amount in USD = ${amount}`
+                document.getElementById('naira').innerText = `Amount in NGN = ${data.rates.NGN*amount}`
             })
         })
 
-        fetch('https://open.er-api.com/v6/latest/USD').then((response) => response.json()).then((data)=>{
-                let option = document.createElement('option');
-                option.value = currency;
-                option.innerText = currency;
-                document.querySelector('#currency').appendchild(option);
+        let btn1 = document.querySelector('#check1');
+        btn1.addEventListener('click',(e) =>{
+            e.preventDefault();
+            let amount = document.getElementById('amount1').value
+
+            fetch('https://open.er-api.com/v6/latest/USD').then((response) => response.json()).then((data)=>{
+                document.getElementById('naira').innerText = `Amount in NGN = ${amount1}`
+                document.getElementById('dollar').innerText = `Amount in USD = ${data.rates.NGN*amount.toFixed (2)}`
             })
+        })
+
+        fetch('https://open.er-api.com/v6/latest/USD')
+  .then((response) => response.json())
+  .then((data) => {
+    const currencySelect = document.getElementById('currency');
+    const currencies = Object.keys(data.rates);
+
+    currencies.forEach((currency) => {
+      const option = document.createElement('option');
+      option.value = currency;
+      option.innerText = currency;
+      currencySelect.appendChild(option);
+    });
+  });
+
     </script>
 </body>
 </html>
